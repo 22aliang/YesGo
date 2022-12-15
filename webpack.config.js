@@ -1,19 +1,20 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   entry:  path.resolve(__dirname,'./src/main.js'),
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: 'js/main.[hash].bundle.js',
+    filename: 'js/[name].[hash].bundle.js',
     assetModuleFilename: 'images/[hash].[ext]',
   },
   devServer: {
     static: {
-      directory: path.resolve(__dirname, './dist'),
+      directory: path.join(__dirname, 'src'),
+      watch: true,
     },
+    liveReload: true,
     port: 9000,
     compress: true,
     open: true,
@@ -23,7 +24,7 @@ module.exports = {
     rules: [
       {
         test: /\.s[ac]ss$/i,
-        use: [MiniCssExtractPlugin.loader,'css-loader', 'sass-loader'],
+        use: [MiniCssExtractPlugin.loader,'css-loader', 'postcss-loader','sass-loader'],
       },
       {
         test: /\.(png|jpg|gif)$/i,
@@ -53,18 +54,22 @@ module.exports = {
           loader: "babel-loader",
         }
       },
+      {
+        test: /\.js$/,
+        enforce: "pre",
+        use: ["source-map-loader"],
+      },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname,'./src/index.html'),
-      filename: 'index.[hash].html',
+      filename: 'index.html',
       inject: 'body',
     }),
     new MiniCssExtractPlugin({
       filename: "./css/main.[hash].css"
     }),
-    new CleanWebpackPlugin(),
   ],
 }
 

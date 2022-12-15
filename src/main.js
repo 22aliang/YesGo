@@ -1,7 +1,8 @@
-import "axios";
-import "bootstrap";
-import "gsap";
+import axios from "axios";
+import bootstrap from 'bootstrap';
+import gsap from "gsap";
+import "./scss/all.scss";
 import "./js/all.js";
-import "./css/all.scss";
+
 
 console.log('hello');
