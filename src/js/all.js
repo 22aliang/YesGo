@@ -1,5 +1,6 @@
-import axios from "axios";
-import bootstrap from 'bootstrap';
-import gsap from "gsap";
+const { default: axios } = require("axios");
 
-console.log('655');
+axios.get("http://localhost:3000/posts")
+.then(function(res){
+  console.log(res);
+})
